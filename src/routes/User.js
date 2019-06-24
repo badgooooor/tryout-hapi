@@ -1,24 +1,34 @@
 'use strict'
 const UserController = require('../controllers/UserController');
-process.env.SECRET = 'secret';
 
-exports.plugin = {
-  register: (server, options, next) => {
-    server.route({
-      method: 'POST',
-      path: '/register',
-      handler: UserController.register
-    }),
-    server.route({
-      method: 'POST',
-      path: '/login',
-      handler: UserController.login
-    }),
-    server.route({
-      method: 'GET',
-      path: '/profile',
-      handler: UserController.profile
-    })
+exports.routes = [
+  {
+    method: 'POST',
+    path: '/users/register',
+    options: {
+      handler: UserController.register,
+      description: "Register new user!",
+      tags: ['api', 'users']
+    }
   },
-  name: "users"
-}
+  {
+    method: 'POST',
+    path: '/users/login',
+    options: {
+      handler: UserController.login,
+      description: "Login user!",
+      notes: "Returns a token if login successful",
+      tags: ['api', 'users']
+    }
+  },
+  {
+    method: 'GET',
+    path: '/users/profile',
+    options: {
+      handler: UserController.profile,
+      description: "Login user!",
+      notes: "Parse authorization token",
+      tags: ['api', 'users']
+    }
+  },
+]
